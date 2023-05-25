@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<h4>
+			Consulta de Coeficiente:
+			<p:outputLabel value="#{coeficienteMB.orgaobanco.banco.nome}" />
+			>
+			<p:outputLabel value="#{coeficienteMB.orgaobanco.nome}" />
+		</h4>
+		<hr />
+		<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+		<div align="right">
+			<p:commandLink ajax="false" style="margin-right:1%;"
+				
+				action="#{coeficienteMB.voltar()}" >
+				<img src="../../resources/img/voltar.png" width="35"/>
+			</p:commandLink>
+			<p:commandLink ajax="false" style="text-decoration:none;"
+				rendered="#{usuarioLogadoMB.usuario.tipocolaborador.acessocolaborador.cadastrarcoeficiente}"
+				action="#{coeficienteMB.novoCoeficiente()}" >
+				<img src="../../resources/img/cadastro.png" width="35"/>
+			</p:commandLink>
+
+		</div>
+		<br/>
+		<h:dataTable id="idTabelaCoeficiente" var="coeficiente"
+			styleClass="table table-striped table-bordered display"
+			value="#{coeficienteMB.listaCoeficiente}" cellspacing="0">
+
+			<h:column>
+				<f:facet name="header">Tabela</f:facet>
+				<h:outputText value="#{coeficiente.nometabela}" />
+			</h:column>
+			<p:column>
+				<f:facet name="header">Cms Total</f:facet>
+				<h:outputText value="#{coeficiente.comissaototal}">
+					<f:convertNumber minFractionDigits="2" locale="pt_BR" />
+				</h:outputText>
+			</p:column>
+			<h:column>
+				<f:facet name="header">Operação</f:facet>
+				<h:outputText value="#{coeficiente.tipooperacao.descricao}" />
+			</h:column>
+
+			<h:column>
+				<p:commandLink ajax="false"
+					action="#{coeficienteMB.editar(coeficiente)}"
+					rendered="#{usuarioLogadoMB.usuario.tipocolaborador.acessocolaborador.cadastrarcoeficiente}"
+					style="text-align: left;color:black;">
+					<span data-feather="edit"></span>
+				</p:commandLink>
+				<p:commandLink ajax="false"
+					action="#{coeficienteMB.desativarCoeficiente(coeficiente)}"
+					update=":formulario:growl, idTabelaCoeficiente"
+					style="text-align: left;color:black;">
+					<span data-feather="trash"></span>
+				</p:commandLink>
+				<p:commandLink ajax="false" rendered="false"
+					action="#{coeficienteMB.novosValores(coeficiente)}"
+					title="Valores Coeficientes" style="text-align: left;color:black;">
+					<span data-feather="list"></span>
+				</p:commandLink>
+			</h:column>
+		</h:dataTable>
+	</ui:define>
+</ui:composition>
+</html>

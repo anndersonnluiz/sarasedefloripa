@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<h4>Alterar situação de contrato</h4>
+		<hr />
+		<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<img src="../../resources/img/novoCarregando.gif" width="130" />
+		</p:dialog>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="inputNome">Cliente</label>
+					
+				<p:outputLabel class="form-control" id="inputNome" disabled="true"
+					value="#{alterarSituacaoMB.contrato.cliente.nome}"/>
+				
+			</div>
+			<div class="form-group col-md-6">
+				<label for="situacao">Situação</label>
+				<h:inputText class="form-control" id="situacao" disabled="true"
+					value="#{alterarSituacaoMB.contrato.situacao.descricao}">
+				</h:inputText>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-3">
+				<label for="tipooperacaos">Tipo Operação</label>
+				<h:inputText class="form-control" id="tipooperacao" disabled="true"
+					value="#{alterarSituacaoMB.contrato.tipooperacao.descricao}">
+				</h:inputText>
+			</div>
+			
+			<div class="form-group col-md-3">
+				<label for="saldoquitacao">Valor a Quitar</label>
+				<h:inputText class="form-control" id="saldoquitacao" 
+					value="#{alterarSituacaoMB.contrato.valorquitar}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:inputText>
+			</div>
+			<div class="form-group col-md-3">
+				<label for="parcela">Parcela</label>
+				<h:inputText class="form-control" id="parcela" disabled="true"
+					value="#{alterarSituacaoMB.contrato.nparcela}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:inputText>
+			</div>
+			<h:panelGroup >
+				<div class="form-group col-md-3">
+					<label for="valorliberado">Valor Liberado</label>
+					<h:inputText class="form-control" id="valorliberado"
+						disabled="#{alterarSituacaoMB.valorliberado}"
+						value="#{alterarSituacaoMB.contrato.valorliberado}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:inputText>
+				</div>
+			</h:panelGroup>
+		</div>
+		<br />
+		<h5>Comissões</h5>
+		<hr/>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<label for="inputNome">Banco</label>
+				<p:selectOneMenu id="exampleBancoSelecionar" style="width: 100%;"
+					immediate="true" value="#{alterarSituacaoMB.banco}"
+					converter="BancoConverter">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{alterarSituacaoMB.listaBanco}"
+						var="bancoSelecionado" itemLabel="#{bancoSelecionado.nome}"
+						itemValue="#{bancoSelecionado}" />
+					<f:attribute name="listaBanco"
+						value="#{alterarSituacaoMB.listaBanco}" />
+					<p:ajax event="change" update="orgaobanco" />
+					<p:ajax event="change"
+						listener="#{alterarSituacaoMB.gerarListaOrgao()}"
+						update="orgaobanco" />
+				</p:selectOneMenu>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="orgaobanco">Orgão</label>
+				<p:selectOneMenu id="orgaobanco" style="width: 100%;"
+					value="#{alterarSituacaoMB.orgaoBanco}"
+					converter="OrgaoBancoConverter">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{alterarSituacaoMB.listaOrgao}"
+						var="orgaoBancoSelecionado"
+						itemLabel="#{orgaoBancoSelecionado.nome}"
+						itemValue="#{orgaoBancoSelecionado}" />
+					<f:attribute name="listaOrgao"
+						value="#{alterarSituacaoMB.listaOrgao}" />
+
+					<p:ajax event="change" update="comboCoeficiente" />
+					<p:ajax event="change"
+						listener="#{alterarSituacaoMB.gerarListaValores()}"
+						update="comboCoeficiente" />
+				</p:selectOneMenu>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="comboCoeficiente">Tabela (Coeficiente)</label>
+				<p:selectOneMenu id="comboCoeficiente" style="width: 100%;"
+					disabled="#{alterarSituacaoMB.valorliberado}"
+					value="#{alterarSituacaoMB.coeficiente}"
+					converter="CoeficienteConverter">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{alterarSituacaoMB.listaCoefiente}"
+						var="coeficienteSelecionado"
+						itemLabel="#{coeficienteSelecionado.nometabela}"
+						itemValue="#{coeficienteSelecionado}" />
+					<f:attribute name="listaCoeficiente"
+						value="#{alterarSituacaoMB.listaCoefiente}" />
+				</p:selectOneMenu>
+			</div>
+			
+		</div>
+		<br />
+		<br />
+		<br />
+		<h6>Alterar Situação</h6>
+		<hr />
+
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="novasituacao">Nova Situação</label>
+				<h:selectOneMenu id="novasituacao" style="width: 100%;"
+					value="#{alterarSituacaoMB.situacao}" converter="SituacaoConverter"
+					styleClass="form-control">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{alterarSituacaoMB.listaSituacao}"
+						var="situacaoSelecionado"
+						itemLabel="#{situacaoSelecionado.descricao}"
+						itemValue="#{situacaoSelecionado}" />
+					<f:attribute name="listaSituacao"
+						value="#{alterarSituacaoMB.listaSituacao}" />
+				</h:selectOneMenu>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-12">
+				<label for="detalhesituacao">Detalhe Situação</label>
+				<h:inputTextarea class="form-control" id="detalhesituacao"
+					value="#{alterarSituacaoMB.contrato.detalhesituacao}">
+				</h:inputTextarea>
+			</div>
+		</div>
+
+		<br />
+		<br />
+		<div align="center">
+			<p:commandLink ajax="false" style="text-decoration:none;"
+				action="#{alterarSituacaoMB.salvar()}">
+				<img src="../../resources/img/salvar.png" width="40" />
+			</p:commandLink>
+			<p:commandLink ajax="false"
+				style="margin-left:2%;text-decoration:none;"
+				action="#{alterarSituacaoMB.cancelar()}">
+				<img src="../../resources/img/cancel.png" width="40" />
+			</p:commandLink>
+		</div>
+		<br />
+		<br />
+	</ui:define>
+</ui:composition>
+</html>

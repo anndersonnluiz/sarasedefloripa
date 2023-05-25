@@ -1,0 +1,199 @@
+<h:panelGroup xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+	<ul style="background: black;"
+		class="navbar-nav sidebar sidebar-dark accordion"
+		id="accordionSidebar">
+
+		<!-- Sidebar - Brand -->
+		<div style="width: 100%;">
+			<a
+				class="sidebar-brand d-flex align-items-center justify-content-center"
+				href="/dashboard.jsf">
+				<div class="sidebar-brand-icon">
+					<img class="img-profile" src="../../resources/img/sara.png"
+						style="width: 100%" />
+				</div>
+			</a>
+		</div>
+		<!-- Divider -->
+		<hr class="sidebar-divider my-0" />
+
+		<!-- Nav Item - Dashboard -->
+		<li class="nav-item active"><a class="nav-link"
+			href="/valecredito/dashboard.jsf"> <i class="fas fa-fw fa-home"></i> <span>Dashboard</span></a></li>
+
+		<!-- Divider -->
+		<hr class="sidebar-divider" />
+
+		<!-- Nav Item - Pages Collapse Menu -->
+		<li class="nav-item"><a class="nav-link collapsed" href="#"
+			data-toggle="collapse" data-target="#collapseTwo"
+			aria-expanded="true" aria-controls="collapseTwo"> <i
+				class="fas fa-fw fa-plus"></i> <span>Cadastro</span>
+		</a>
+			<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+				data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+
+					<a class="collapse-item" href="/pages/banco/consBanco.jsf">Banco</a>
+
+					<h:panelGroup rendered="#{usuarioLogadoMB.usuario.acessogeral}">
+						<a class="collapse-item"
+							href="/valecredito/pages/tipocolaborador/consTipoColaborador.jsf"> Grupo
+							de Acessos </a>
+					</h:panelGroup>
+
+				</div>
+			</div></li>
+			
+		
+			<li class="nav-item"><a class="nav-link"
+				href="/valecredito/pages/departamento/consDepartamento.jsf"> <i class="fas fa-fw fa-plus"></i> <span>Departamentos</span></a>
+			</li>
+
+
+		<li class="nav-item"><h:panelGroup rendered="#{usuarioLogadoMB.usuario.acessogeral}">
+					<a class="nav-link collapsed" href="#" data-toggle="collapse"
+						data-target="#collapseFive" aria-expanded="true"
+						aria-controls="collapseFive"> <i
+						class="fas fa-funnel-dollar fa-file"></i> <span>Financeiro</span>
+					</a>
+					<div id="collapseFive" class="collapse"
+						aria-labelledby="headingFive" data-parent="#accordionSidebar">
+						<div class="bg-white py-2 collapse-inner rounded">
+							
+							<a class="collapse-item"
+								href="/pages/financeiro/consContasPagar.jsf"> Pagamentos </a>
+							
+							<a class="collapse-item"
+								href="/pages/financeiro/consContasReceber.jsf"> Recebimentos </a>
+						</div>
+					</div>
+				</h:panelGroup></li>
+
+
+		<li class="nav-item"><a class="nav-link collapsed" href="#"
+			data-toggle="collapse" data-target="#collapseSex"
+			aria-expanded="true" aria-controls="collapseSex"> <i
+				class="fas fa-fw fa-cog"></i> <span>Configurações</span>
+		</a>
+			<div id="collapseSex" class="collapse" aria-labelledby="headingTwo"
+				data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+					<h:panelGroup rendered="#{usuarioLogadoMB.usuario.acessogeral}">
+						<a class="collapse-item"
+							href="/pages/historico/consHistoricoUsuario.jsf" role="button"
+							aria-haspopup="true" aria-expanded="false"> Histórico de
+							Usuário </a>
+					</h:panelGroup>
+				</div>
+			</div></li>
+
+		<!-- Divider -->
+		<hr class="sidebar-divider d-none d-md-block" />
+
+
+
+	</ul>
+	<!-- End of Sidebar -->
+
+	<!-- Content Wrapper -->
+	<div id="content-wrapper" class="d-flex flex-column">
+
+		<!-- Main Content -->
+		<div id="content">
+
+			<!-- Topbar -->
+			<nav
+				style="background: linear-gradient(to bottom, black, black, black, black, black);"
+				class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+
+				<!-- Topbar Navbar -->
+				<ul class="navbar-nav ml-auto">
+
+
+
+					<!-- Nav Item - Alerts -->
+					<li class="nav-item dropdown no-arrow mx-1"><a
+						class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <!-- Counter - Alerts -->
+							<span class="badge badge-danger badge-counter"
+							style="font-size: 16px;">#{dashBoardMB.nNotificacao}</span>
+					</a> <!-- Dropdown - Alerts -->
+						<div
+							class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+							aria-labelledby="alertsDropdown">
+							<h6 class="dropdown-header">
+								Notificações
+
+								<p:commandLink ajax="false" action="#{dashBoardMB.vistoTodos()}"
+									update="idnotificacao">
+									<i class="fas fa-times fa-2x text-gray-100"
+										style="font-size: 14px;"></i>
+								</p:commandLink> 
+							</h6>
+
+							<ui:repeat var="notificacao" value="#{dashBoardMB.listaNotificacao}">
+								<a class="dropdown-item d-flex align-items-center"
+									href="/pages/notificacao/consNotificacao.jsf">
+									<div class="mr-3">
+										<div class="icon-circle bg-secondary">
+											<i class="fas fa-bell text-white"></i>
+										</div>
+									</div>
+									<div>
+										<div class="small text-gray-500">#{notificacao.titulo}</div>
+										<span class="font-weight-bold">#{notificacao.descricao}</span>
+									</div>
+								</a>
+							</ui:repeat>
+
+							<a class="dropdown-item text-center small text-gray-500"
+								href="/pages/notificacao/consNotificacao.jsf">Todas
+								Notificações</a>
+						</div></li>
+
+					
+
+					<div class="topbar-divider d-none d-sm-block"></div>
+
+					<!-- Nav Item - User Information -->
+					<li class="nav-item dropdown no-arrow"><a
+						class="nav-link dropdown-toggle" href="#" id="userDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <span
+							style="color: #83ffc3; font-weight: bold;"
+							class="mr-2 d-none d-lg-inline small">#{usuarioLogadoMB.nomeUsuario}</span>
+
+					</a> <!-- Dropdown - User Information -->
+						<div
+							class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+							aria-labelledby="userDropdown">
+							<a class="dropdown-item" href="/pages/usuario/alterarSenha.jsf"
+								role="button" aria-haspopup="true" aria-expanded="false">
+								Alterar Senha </a>
+							<div class="dropdown-divider"></div>
+							<p:commandLink action="#{usuarioLogadoMB.deslogar()}"
+								value="Sair" styleClass="dropdown-item " />
+						</div></li>
+
+				</ul>
+
+			</nav>
+
+		</div>
+	</div>
+</h:panelGroup>

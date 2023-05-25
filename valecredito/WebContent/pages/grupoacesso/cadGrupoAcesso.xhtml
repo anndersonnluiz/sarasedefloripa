@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<br />
+		<h4>Cadastro do Grupo de acesso</h4>
+		<hr />
+		<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+
+
+		<div class="form-row">
+			<div class="form-group col-md-12">
+				<label for="inputNome">Descrição</label>
+				<h:inputText
+					value="#{cadGrupoAcessoMB.tipocolaborador.descricao}"
+					class="form-control" id="inputNome" placeholder="Descrição" />
+			</div>
+		</div>
+		<br />
+		<br />
+		<h6>Permissões de acesso ao sistema</h6>
+		<hr />
+		<p:tabView>
+			<p:tab title="Cadastro">
+				<h:panelGrid columns="4" style="width:100%;">
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.cadastrarbanco}" />
+						<h:outputText value="Cadastrar um banco" style="margin-left:2%;" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.cadastrarorgao}" />
+						<h:outputText value="Cadastrar um orgão" style="margin-left:2%;" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.cadastrarcoeficiente}" />
+						<h:outputText value="Cadastrar um coeficiente"
+							style="margin-left:2%;" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.emissaocontrato}" />
+						<h:outputText value="Emissão Contrato" style="margin-left:2%;" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Operacional">
+				<h:panelGrid columns="4" style="width:100%;">
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.notificacaooperacional}" />
+						<h:outputText value="Notificação Nova Venda"
+							style="margin-left:2%;" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Financeiro">
+				<h:panelGrid columns="4" style="width:100%;">
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.financeiro}" />
+						<h:outputText value="Módulo Financeiro" style="margin-left:2%;" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Metas">
+				<h:panelGrid columns="4" style="width:100%;">
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.metas}" />
+						<h:outputText value="Módulo Metas" style="margin-left:2%;" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:selectBooleanCheckbox
+							value="#{cadGrupoAcessoMB.tipocolaborador.acessocolaborador.cadastrarmetas}" />
+						<h:outputText value="Cadastrar Metas" style="margin-left:2%;" />
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:tab>
+		</p:tabView>
+
+		<br />
+		<hr />
+		<div align="center">
+			<p:commandLink ajax="false" style="text-decoration:none;"
+				action="#{cadGrupoAcessoMB.salvar()}">
+				<img src="../../resources/img/confirmar.png" width="40" />
+			</p:commandLink>
+			<p:commandLink ajax="false"
+				style="margin-left:2%;text-decoration:none;"
+				action="#{cadGrupoAcessoMB.cancelar()}">
+				<img src="../../resources/img/cancel.png" width="40" />
+			</p:commandLink>
+		</div>
+		<br />
+		<br />
+	</ui:define>
+</ui:composition>
+</html>

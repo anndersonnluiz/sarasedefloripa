@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<br />
+		<h4>Demais Operações</h4>
+		<hr />
+		<p:messages id="growl" showDetail="true" sticky="false" life="3000" />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<img src="../../resources/img/novoCarregando.gif" width="130" />
+		</p:dialog>
+		<br />
+		<div class="row" style="color: white;" id="panelSituacoes">
+
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(1)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Aguardando Digitação</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nDigitados}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(6)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Pendências</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nFormalizacaoPendencia}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(3)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Aguardando Assinatura</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nAguardandoAssinatura}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(7)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Aguardando Pagamento</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nAguardandoPagamento}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(5)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Pago ao Cliente</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nPagoCliente}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(2)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Cancelados</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nCancelados}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+			<div class="col-xl-3 col-md-3 mb-3">
+				<p:commandLink
+					action="#{demaisOperacoesMB.gerarListaDemaisOperacoes(0)}"
+					ajax="false" style="text-decoration:none;" update="@all">
+					<div class="card border-left-primary shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div style="font-size: 11px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										Todos</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										#{demaisOperacoesMB.nTodos}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</p:commandLink>
+			</div>
+		</div>
+		<br />
+		<br />
+		<br />
+		<h:panelGrid rendered="#{demaisOperacoesMB.mudarsituacao}"
+			id="idtabela">
+			<p:accordionPanel activeIndex="null">
+				<p:tab title="Filtros">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="usuario">Corretor</label>
+							<h:selectOneMenu id="usuario"
+								style="width: 100%;text-transform: uppercase;" immediate="true"
+								value="#{demaisOperacoesMB.usuario}"
+								converter="UsuarioConverter" styleClass="form-control"
+								onchange="usuario" disabled="#{demaisOperacoesMB.unicoUsuario}">
+								<f:selectItem itemLabel="Selecione" itemValue="0"
+									noSelectionOption="true" />
+								<f:selectItems value="#{demaisOperacoesMB.listaUsuario}"
+									var="usuarioSelecionado" itemLabel="#{usuarioSelecionado.nome}"
+									itemValue="#{usuarioSelecionado}" />
+								<f:attribute name="listaUsuario"
+									value="#{demaisOperacoesMB.listaUsuario}" />
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-5">
+							<label for="nomecliente">Nome Cliente</label>
+							<h:inputText class="form-control" id="nomecliente"
+								value="#{demaisOperacoesMB.nomeCliente}">
+							</h:inputText>
+						</div>
+						<div class="form-group col-md-2">
+							<label for="cpf">CPF</label>
+							<p:inputMask mask="999.999.999-99" id="cpf"
+								styleClass="form-control" value="#{demaisOperacoesMB.cpf}" />
+						</div>
+						<div class="form-group col-md-4">
+							<label for="inputNome">Banco</label>
+							<h:selectOneMenu id="exampleBanco"
+								style="width: 100%;text-transform: uppercase;" immediate="true"
+								value="#{demaisOperacoesMB.banco}" converter="BancoConverter"
+								styleClass="form-control">
+								<f:selectItem itemLabel="Selecione" itemValue="0"
+									noSelectionOption="true" />
+								<f:selectItems value="#{demaisOperacoesMB.listaBanco}"
+									var="bancoSelecionado" itemLabel="#{bancoSelecionado.nome}"
+									itemValue="#{bancoSelecionado}" />
+								<f:attribute name="listaBanco"
+									value="#{demaisOperacoesMB.listaBanco}" />
+								<p:ajax event="blur" />
+							</h:selectOneMenu>
+						</div>
+						<div class="form-group col-md-3">
+							<label style="color: white;">.</label>
+							<div>
+								<p:commandLink ajax="false" styleClass="btn btn-primary"
+									value="Pesquisar" action="#{demaisOperacoesMB.pesquisar()}"
+									update="idTabelaPortabilidade" style="color:white;" />
+								<p:commandLink ajax="false" style="margin-left:1%;"
+									styleClass="btn btn-link" value="Limpar"
+									action="#{demaisOperacoesMB.limpar()}"
+									update="idTabelaPortabilidade, cpf, nomecliente, usuario" />
+							</div>
+						</div>
+					</div>
+				</p:tab>
+			</p:accordionPanel>
+
+			<br />
+			<p:dataTable id="idTabelaPortabilidade" var="contrato"
+				widgetVar="cellCars" editable="true" editMode="cell"
+				value="#{demaisOperacoesMB.listaContrato}" style="border:none;"
+				class="tabelacontas" scrollRows="10" scrollable="true"
+				scrollHeight="350" selectionMode="single"
+				rowKey="#{contrato.idcontrato}">
+
+
+
+				<p:column headerText="Emissão"
+					style="width:12%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+					<h:outputText value="#{contrato.datacadastro}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Pagamento"
+					style="width:12%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+					<h:outputText value="#{contrato.datapagamento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Corretor"
+					style="width:10%; font-size:11px; background:white; color:black; border:none;text-align:left;text-transform: uppercase;">
+					<h:outputText value="#{contrato.usuario.nome}" />
+				</p:column>
+				<p:column headerText="CPF"
+					style="width:13%; font-size:11px; background:white; color:black; border:none;text-align:left;text-transform: uppercase;">
+					<h:outputText value="#{contrato.cliente.cpf}" />
+				</p:column>
+				<p:column headerText="Cliente"
+					style="width:15%; font-size:11px; background:white; color:black; border:none;text-align:left;text-transform: uppercase;">
+					<h:outputText value="#{contrato.cliente.nome}" />
+				</p:column>
+				<p:column headerText="Banco/Órgão"
+					style="width:15%; font-size:11px; background:white; color:black; border:none;text-align:left;text-transform: uppercase;">
+					<h:outputText
+						value="#{contrato.orgaoBanco.banco.nome} /
+							#{contrato.orgaoBanco.nome}" />
+				</p:column>
+				<p:column headerText="Operação"
+					style="width:10%; font-size:11px; background:white; color:black; border:none;text-align:left;text-transform: uppercase;">
+					<h:outputText value="#{contrato.tipooperacao.apelido}" />
+				</p:column>
+				<p:column headerText="Margem"
+					style="width:10%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+					<h:outputText value="#{contrato.margemultilizado}">
+						<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Situação"
+					style="width:10%; font-size:11px; background:white; color:black; border:none;text-align:left;text-transform: uppercase;">
+					<h:outputText value="#{contrato.situacao.descricao}" />
+				</p:column>
+				<p:column headerText=""
+					style="width:10%; text-align:left; font-size:12px; background:white; color:black; border:#fff;">
+
+					<p:commandLink ajax="false"
+						action="#{demaisOperacoesMB.editar(contrato)}"
+						style="text-align: left;color:black;">
+						<span data-feather="edit"></span>
+					</p:commandLink>
+
+					<p:commandLink ajax="false"
+						action="#{demaisOperacoesMB.anexarArquivo(contrato)}"
+						title="Arquivos" style="text-align: left;color:black;">
+						<span data-feather="folder-plus"></span>
+					</p:commandLink>
+
+					<p:commandLink ajax="false"
+						rendered="#{usuarioLogadoMB.usuario.acessogeral}"
+						action="#{demaisOperacoesMB.alterarSituacao(contrato)}"
+						style="text-align: left;color:black;">
+						<span data-feather="arrow-right"></span>
+					</p:commandLink>
+					<p:commandLink ajax="false" update="growl"
+						action="#{demaisOperacoesMB.detalheSituacao(contrato)}"
+						style="text-align: left;color:black;">
+						<span data-feather="eye"></span>
+					</p:commandLink>
+					<p:commandLink
+						action="#{demaisOperacoesMB.imprimirFicha(contrato)}"
+						style="text-align: left;color:black;">
+						<span data-feather="printer"></span>
+					</p:commandLink>
+					<p:commandLink
+						action="#{demaisOperacoesMB.gerarComissao(contrato)}"
+						update="growl"
+						style="text-align: left;color:black;"
+						rendered="#{usuarioLogadoMB.usuario.acessogeral}">
+						<span data-feather="dollar-sign"></span>
+					</p:commandLink>
+
+					<p:commandLink  rendered="#{demaisOperacoesMB.viewPendencia}"
+						action="#{demaisOperacoesMB.removerPendencia(contrato)}" update="idTabelaPortabilidade, growl"
+						style="text-align: left;color:black;">
+						<span data-feather="check"></span>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+			<br />
+			<br />
+			<br />
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>
+</html>

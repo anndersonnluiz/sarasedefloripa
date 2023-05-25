@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<br />
+		<h4>Consulta de Contas a Pagar</h4>
+		<hr />
+		<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+
+		<p:accordionPanel activeIndex="null">
+			<p:tab title="Filtros">
+				<div class="form-row" style="font-size: 14px;">
+					<div class="form-group col-md-5">
+						<label for="usuario">Tipo Despesa</label>
+						<h:selectOneMenu id="usuario" style="width: 100%;"
+							immediate="true" value="#{contasPagarMB.tipodespesa}"
+							converter="TipoDespesaConverter" styleClass="form-control">
+							<f:selectItem itemLabel="Selecione" itemValue="0"
+								noSelectionOption="true" />
+							<f:selectItems value="#{contasPagarMB.listaTipoDespesa}"
+								var="usuarioSelecionado"
+								itemLabel="#{usuarioSelecionado.descricao}"
+								itemValue="#{usuarioSelecionado}" />
+							<f:attribute name="listaTipoDespesa"
+								value="#{contasPagarMB.listaTipoDespesa}" />
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group col-md-3">
+						<label for="cpf">Mês</label>
+						<h:selectOneMenu style="width: 100%;" id="cpf"
+							value="#{contasPagarMB.mesreferente}" styleClass="form-control">
+							<f:selectItem itemLabel="Todos" itemValue="0" />
+							<f:selectItem itemLabel="Janeiro" itemValue="1" />
+							<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+							<f:selectItem itemLabel="Março" itemValue="3" />
+							<f:selectItem itemLabel="Abril" itemValue="4" />
+							<f:selectItem itemLabel="Maio" itemValue="5" />
+							<f:selectItem itemLabel="Junho" itemValue="6" />
+							<f:selectItem itemLabel="Julho" itemValue="7" />
+							<f:selectItem itemLabel="Agosto" itemValue="8" />
+							<f:selectItem itemLabel="Setembro" itemValue="9" />
+							<f:selectItem itemLabel="Outubro" itemValue="10" />
+							<f:selectItem itemLabel="Novembro" itemValue="11" />
+							<f:selectItem itemLabel="Dezembro" itemValue="12" />
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group col-md-4">
+						<label for="usuario">Periodo do Pagamento</label>
+						<h:panelGrid columns="2" style="width:80%;">
+							<p:calendar locale="pt_BR" pattern="dd/MM/yyyy"
+								style="widht:80%;" value="#{contasPagarMB.dataini}" id="dataini"
+								size="9">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+								<p:ajax event="dateSelect" />
+								<p:ajax event="blur" />
+							</p:calendar>
+							<p:calendar locale="pt_BR" pattern="dd/MM/yyyy"
+								style="widht:80%;" value="#{contasPagarMB.datafin}" id="datafin"
+								size="9">
+								<f:convertDateTime pattern="dd/MM/yyyy"
+									timeZone="America/Sao_Paulo" />
+								<p:ajax event="dateSelect" />
+								<p:ajax event="blur" />
+							</p:calendar>
+						</h:panelGrid>
+					</div>
+					<div class="form-group col-md-4">
+						<label style="color: white">.</label>
+						<div>
+							<p:commandLink ajax="false"
+								styleClass="btn btn-primary text-white" value="Pesquisar"
+								action="#{contasPagarMB.pesquisar()}"
+								update="idTabelaComissao, infValorTotal, referente" />
+							<p:commandLink ajax="false" style="margin-left:1%;"
+								styleClass="btn btn-link" value="Limpar"
+								action="#{contasPagarMB.limpar()}"
+								update="idTabelaComissao, usuario, dataini, datafin, referente" />
+						</div>
+					</div>
+				</div>
+			</p:tab>
+		</p:accordionPanel>
+		<br />
+		<div align="right">
+			<p:commandLink ajax="false" action="#{contasPagarMB.novo()}">
+				<img src="../../resources/img/cadastro.png" width="35" />
+			</p:commandLink>
+		</div>
+		<div id="referente">
+			<p:outputLabel style="font-size:18px;font-weight:bold;"
+				value="Fatura de: #{contasPagarMB.nomeMes}" />
+		</div>
+		<p:dataTable id="idTabelaComissao" var="contas"
+			value="#{contasPagarMB.listaContasPagar}" style="border:none;"
+			class="tabelacontas" scrollRows="10" scrollable="true"
+			scrollHeight="300" selectionMode="single"
+			rowKey="#{contas.idcontaspagar}" rowIndexVar="rowIx">
+
+
+			<p:column headerText="Tipo Despesa"
+				style="width:12%; font-size:12px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{contas.tipodespesa.descricao}" />
+			</p:column>
+			<p:column headerText="Descrição"
+				style="width:23%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{contas.descricao}" />
+			</p:column>
+			<p:column headerText="Parcela"
+				style="width:9%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{contas.nparcela}/#{contas.totalparcela}" />
+			</p:column>
+			<p:column headerText="Valor R$"
+				style="width:10%; font-size:11px; background:white; color:black; border:none;text-align:right;">
+				<h:outputText value="#{contas.valor}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Vencimento"
+				style="width:10%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{contas.datavencimento}">
+					<f:convertDateTime pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Pagamento"
+				style="width:10%; font-size:11px; background:white; color:black; border:none;">
+				<h:outputText value="#{contas.datapagamento}">
+					<f:convertDateTime pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+
+
+			<p:column headerText=""
+				style="width:8%; text-align:left; font-size:12px; background:white; color:black; border:#fff;">
+				<p:commandLink ajax="false" action="#{contasPagarMB.editar(contas)}"
+					style="text-align: left;color:black;" title="Editar">
+					<span data-feather="edit"></span>
+				</p:commandLink>
+				<p:commandLink ajax="false"
+					action="#{contasPagarMB.excluirConta(rowIx)}"
+					style="text-align: left;color:black;" update="idTabelaComissao">
+					<span data-feather="trash"></span>
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+		<br />
+		<div class="row" style="color: white;" id="panelNumeros">
+			<div class="col-xl-4 col-md-6 mb-6">
+				<div class="card border-left-danger shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<p:commandLink action="#"
+									style="width:100%;text-decoration:none;" ajax="false">
+									<div style="font-size: 16px;"
+										class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+										TOTAL</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										R$
+										<h:outputText value="#{contasPagarMB.nvalorTotal}">
+											<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+												locale="pt_BR" />
+										</h:outputText>
+									</div>
+								</p:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-4 col-md-6 mb-6">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<p:commandLink action="#"
+									style="width:100%;text-decoration:none;" ajax="false">
+									<div style="font-size: 16px;"
+										class="text-xs font-weight-bold text-success text-uppercase mb-1">
+										PAGOS</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										R$
+										<h:outputText value="#{contasPagarMB.valorPago}">
+											<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+												locale="pt_BR" />
+										</h:outputText>
+									</div>
+								</p:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-4 col-md-6 mb-6">
+				<div class="card border-left-primary shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<p:commandLink action="#"
+									style="width:100%;text-decoration:none;" ajax="false">
+									<div style="font-size: 16px;"
+										class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+										RESTANTES</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">
+										R$
+										<h:outputText value="#{contasPagarMB.valorRestante}">
+											<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+												locale="pt_BR" />
+										</h:outputText>
+									</div>
+								</p:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+	</ui:define>
+</ui:composition>
+</html>

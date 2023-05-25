@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<br />
+		<h4>Cadastro de Banco</h4>
+		<hr />
+		<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+
+
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="usuario">Corretor</label>
+				<h:selectOneMenu id="usuario" style="width: 100%;" immediate="true"
+					value="#{cadRankingVendasMB.usuario}" converter="UsuarioConverter"
+					styleClass="form-control" onchange="usuario">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadRankingVendasMB.listaUsuario}"
+						var="usuarioSelecionado" itemLabel="#{usuarioSelecionado.nome}"
+						itemValue="#{usuarioSelecionado}" />
+					<f:attribute name="listaUsuario"
+						value="#{cadRankingVendasMB.listaUsuario}" />
+				</h:selectOneMenu>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="inputRG">Tipo de Operação</label>
+				<h:selectOneMenu id="tipooperacao" style="width: 100%;"
+					value="#{cadRankingVendasMB.tipooperacao}"
+					converter="TipoOperacaoConverter" styleClass="form-control">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadRankingVendasMB.listaTipoOperacao}"
+						var="tipoOperacaoSelecionado"
+						itemLabel="#{tipoOperacaoSelecionado.descricao}"
+						itemValue="#{tipoOperacaoSelecionado}" />
+					<f:attribute name="listaTipoOperacao"
+						value="#{cadRankingVendasMB.listaTipoOperacao}" />
+				</h:selectOneMenu>
+			</div>
+			<div class="form-group col-md-2">
+				<label for="inputCodigo">Mês</label>
+				<h:inputText value="#{cadRankingVendasMB.rankingvendas.mes}" class="form-control"
+					id="inputCodigo"/>
+			</div>
+			<div class="form-group col-md-2">
+				<label for="inputNome">Ano</label>
+				<h:inputText value="#{cadRankingVendasMB.rankingvendas.ano}" class="form-control"
+					id="inputNome" placeholder="Nome do banco" />
+			</div>
+			<div class="form-group col-md-2">
+				<label>Valor Venda</label>
+				<h:inputText value="#{cadRankingVendasMB.rankingvendas.valorvenda}"
+					style="border-color:black;" id="valorvenda" class="form-control"
+					placeholder="Valor Quitar">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:inputText>
+			</div>
+			<div class="form-group col-md-2">
+				<label>Comissão Venda</label>
+				<h:inputText value="#{cadRankingVendasMB.rankingvendas.comissaovenda}"
+					style="border-color:black;" id="comissaovenda" class="form-control"
+					placeholder="Valor Quitar">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:inputText>
+			</div>
+		</div>
+
+		<br />
+		<hr />
+		<div align="center">
+			<p:commandLink ajax="false" action="#{cadRankingVendasMB.salvar()}">
+				<img src="../../resources/img/salvar.png" width="40" />
+			</p:commandLink>
+			<p:commandLink ajax="false"
+				style="margin-left:2%;text-decoration:none;"
+				action="#{cadRankingVendasMB.cancelar()}">
+				<img src="../../resources/img/cancel.png" width="40" />
+			</p:commandLink>
+		</div>
+		<br />
+		<br />
+		<hr/>
+		<div align="left">
+			<p:commandLink ajax="false" action="#{cadRankingVendasMB.gerarListaHistoricoComissao()}" value="Pesquisar" update="idTabelaComissao, panelNumeros"/>
+		</div>
+		<br/>
+		
+		<p:dataTable id="idTabelaComissao" var="comissao"
+			value="#{cadRankingVendasMB.listaHistoricoComissao}" style="overflow: auto;"
+			class="tabelacontas" scrollRows="10" scrollable="true"
+			 scrollHeight="300" selectionMode="single"
+			reflow="true" rowKey="#{comissao.idhistoricocomissao}">
+
+
+
+			
+			<p:column headerText="Operação"
+				style="width:8%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{comissao.contrato.tipooperacao.apelido}" />
+			</p:column>
+			<p:column headerText="Cliente"
+				style="width:15%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{comissao.contrato.cliente.nome}" />
+			</p:column>
+			<p:column headerText="Lançamento"
+				style="width:9%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{comissao.datalancamento}">
+					<f:convertDateTime pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Situação"
+				style="width:12%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{comissao.contrato.situacao.descricao}" />
+			</p:column>
+			<p:column headerText="Corretor"
+				style="width:15%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{comissao.usuario.nome}" />
+			</p:column>
+			<p:column headerText="Valor Liberado"
+				style="width:9%; font-size:11px; background:white; color:black; border:none;text-align:right;">
+				<h:outputText value="#{comissao.contrato.valorliberado}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2"
+						maxFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Valor Quitar"
+				style="width:9%; font-size:11px; background:white; color:black; border:none;text-align:right;">
+				<h:outputText value="#{comissao.contrato.valorquitar}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2"
+						maxFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Produção"
+				style="width:9%; font-size:11px; background:white; color:black; border:none;text-align:right;">
+				<h:outputText value="#{comissao.prodliq}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2"
+						maxFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+
+		</p:dataTable>
+		<br/><br/>
+		<br />
+		<br />
+		<div class="row" style="color: white;" id="panelNumeros">
+			<div class="col-xl-3 col-md-4 mb-4">
+				<div class="card border-left-primary shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div style="font-size: 14px;"
+									class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+									Liberado</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">
+									R$
+									<h:outputText value="#{cadRankingVendasMB.valorLiberado}">
+										<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+											locale="pt_BR" />
+									</h:outputText>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-md-4 mb-4">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div style="font-size: 14px;"
+									class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+									Quitar</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">
+									R$
+									<h:outputText value="#{cadRankingVendasMB.valorQuitar}">
+										<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+											locale="pt_BR" />
+									</h:outputText>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-md-4 mb-4">
+				<div class="card border-left-success shadow h-100 py-2">
+					<div class="card-body">
+						<div class="row no-gutters align-items-center">
+							<div class="col mr-2">
+								<div style="font-size: 14px;"
+									class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+									Produção</div>
+								<div class="h5 mb-0 font-weight-bold text-gray-800">
+									R$
+									<h:outputText value="#{cadRankingVendasMB.valorProducao}">
+										<f:convertNumber minFractionDigits="2" maxFractionDigits="2"
+											locale="pt_BR" />
+									</h:outputText>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<h4>Novo Contrato</h4>
+		<hr />
+		<p:growl id="growl" showDetail="true" sticky="false" life="3000" />
+		<div class="form-row" style="font-size:14px;">
+			<div class="form-group col-md-6">
+				<label for="inputRG">Tipo de Operação</label>
+				<h:selectOneMenu id="tipooperacao" style="width: 100%;" 
+					value="#{confDadosContratoMB.contrato.tipooperacao}"
+					converter="TipoOperacaoConverter" styleClass="form-control">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{confDadosContratoMB.listaTipoOperacao}"
+						var="tipoOperacaoSelecionado"
+						itemLabel="#{tipoOperacaoSelecionado.descricao}"
+						itemValue="#{tipoOperacaoSelecionado}" />
+					<f:attribute name="listaTipoOperacao"
+						value="#{confDadosContratoMB.listaTipoOperacao}" />
+				</h:selectOneMenu>
+			</div>
+			<div class="formgroup col-md-5">
+				<label style="font-size: 14px;color:white;">.</label>
+				<p:selectOneRadio
+					value="#{confDadosContratoMB.tipoOpcoes}">
+					<f:selectItem itemLabel="INSS" itemValue="1" />
+					<f:selectItem itemLabel="SIAPE/GOV/PREF" itemValue="2" />
+					<f:selectItem itemLabel="FGTS" itemValue="4" />
+				</p:selectOneRadio>
+			</div>
+		</div>
+
+		<br />
+		<hr />
+		<div align="center" style="font-size:14px;">
+			<p:commandLink ajax="false" styleClass="btn btn-primary" update="growl"
+				value="Próximo" action="#{confDadosContratoMB.cadContrato()}" />
+			<p:commandLink ajax="false" styleClass="btn btn-danger"
+				style="margin-left:2%;" value="Cancelar"
+				action="#{confDadosContratoMB.cancelar()}" />
+		</div>
+		<br />
+		<br />
+	</ui:define>
+</ui:composition>
+</html>

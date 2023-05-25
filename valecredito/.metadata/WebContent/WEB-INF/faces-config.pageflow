@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf16837652255250" configfile="/valecredito/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="754" id="pf16837655952921" referenceLink="//@navigationRule.3/@fromViewId|" outlinks="pf16837655952932 pf16837655952933 pf16837688092266 pf16837688092267" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf16837655952934" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf16837655952932" path="index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="dashboard.xhtml" x="338" y="562" id="pf16837655952935" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf16837655952933" path="dashboard.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/usuario/consUsuario.xhtml" x="338" y="946" id="pf16837688092268" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf16837688092266" path="pages/usuario/consUsuario.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/departamento/consDepartamento.xhtml" x="338" y="1330" id="pf16837688092269" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf16837688092267" path="pages/departamento/consDepartamento.xhtml"/>
+  <links id="pf16837655952932" target="pf16837655952934" source="pf16837655952921" outcome="index" redirect="true"/>
+  <links id="pf16837655952933" target="pf16837655952935" source="pf16837655952921" outcome="dashboard" redirect="true"/>
+  <links id="pf16837688092266" target="pf16837688092268" source="pf16837655952921" outcome="consUsuario" redirect="true"/>
+  <links id="pf16837688092267" target="pf16837688092269" source="pf16837655952921" outcome="consDepartamento" redirect="true"/>
+</pageflow:Pageflow>

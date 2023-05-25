@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<br />
+		<h4>Cadastro de Contrato</h4>
+		<hr />
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<img src="../../resources/img/novoCarregando.gif" width="130" />
+		</p:dialog>
+
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="usuario">Corretor</label>
+				<h:selectOneMenu id="usuario" style="width: 100%;" immediate="true"
+					value="#{cadContratoMB.usuario}" converter="UsuarioConverter"
+					styleClass="form-control" onchange="usuario"
+					disabled="#{cadContratoMB.habilitarUsuario}">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadContratoMB.listaUsuario}"
+						var="usuarioSelecionado" itemLabel="#{usuarioSelecionado.nome}"
+						itemValue="#{usuarioSelecionado}" />
+					<f:attribute name="listaUsuario"
+						value="#{cadContratoMB.listaUsuario}" />
+				</h:selectOneMenu>
+			</div>
+
+			<div class="form-group col-md-6">
+				<label for="inputRG">Tipo de Operação</label>
+				<h:inputText
+					value="#{cadContratoMB.contrato.tipooperacao.descricao}"
+					style="border-color:black;" disabled="true" class="form-control"
+					placeholder="Operação" />
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<label for="orgaobanco">Orgão</label>
+				<h:selectOneMenu id="orgaobanco" style="width: 100%;"
+					value="#{cadContratoMB.orgaoBanco}" converter="OrgaoBancoConverter"
+					styleClass="form-control">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadContratoMB.listaOrgaoBanco}"
+						var="orgaoBancoSelecionado"
+						itemLabel="#{orgaoBancoSelecionado.nome}"
+						itemValue="#{orgaoBancoSelecionado}" />
+					<f:attribute name="listaOrgao"
+						value="#{cadContratoMB.listaOrgaoBanco}" />
+				</h:selectOneMenu>
+			</div>
+		</div>
+		<br />
+
+		<p:messages id="growl" showDetail="true" sticky="false" life="3000"
+			closable="true" />
+		<h6>Dados pessoais</h6>
+		<hr />
+		<div class="form-row" style="text-transform: uppercase;">
+			<div class="form-group col-md-5">
+				<label for="inputCpf">CPF</label> <br />
+				<p:inputMask mask="999.999.999-99" id="inputCpf"
+					value="#{cadContratoMB.cpf}">
+					<p:ajax event="change" listener="#{cadContratoMB.buscarCliente()}"
+						update="inputNome, matricula, growl" />
+				</p:inputMask>
+			</div>
+
+
+
+		</div>
+		<div class="form-row" style="text-transform: uppercase;">
+			<div class="form-group col-md-7">
+				<label for="inputNome">Nome</label>
+				<h:inputText value="#{cadContratoMB.cliente.nome}"
+					style="border-color:black;text-transform: uppercase;"
+					class="form-control" id="inputNome" placeholder="Nome" />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="matricula">Matrícula</label>
+				<h:inputText value="#{cadContratoMB.cliente.matriculabeneficio}"
+					style="border-color:black;text-transform: uppercase;"
+					class="form-control" id="matricula" placeholder="UF - RG" />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="matricula">Email</label>
+				<h:inputText value="#{cadContratoMB.cliente.email}"
+					style="border-color:black;text-transform: uppercase;"
+					class="form-control" id="emailcliente" />
+			</div>
+			<div class="form-group col-md-3">
+				<label for="matricula">Telefone</label>
+				<h:inputText value="#{cadContratoMB.cliente.telefone}"
+					style="border-color:black;text-transform: uppercase;"
+					class="form-control" id="telefonecliente" />
+			</div>
+		</div>
+
+		<br />
+		<h6>Dados da Operação</h6>
+		<hr />
+
+
+		<h:panelGroup id="idcontratounificacao"
+			rendered="#{!cadContratoMB.contrato.tipooperacao.margem}">
+			<div class="form-row">
+
+				<div class="form-group col-md-5">
+					<label for="exampleBancoOperacao">Banco</label>
+					<h:selectOneMenu id="exampleBancoOperacao"
+						style="width: 100%;border-color:black;"
+						value="#{cadContratoMB.banco}" converter="BancoConverter"
+						styleClass="form-control">
+						<f:selectItem itemLabel="Selecione" itemValue="0"
+							noSelectionOption="true" />
+						<f:selectItems value="#{cadContratoMB.listaBancoOperacao}"
+							var="bancoSelecionado" itemLabel="#{bancoSelecionado.nome}"
+							itemValue="#{bancoSelecionado}" />
+						<f:attribute name="listaBanco"
+							value="#{cadContratoMB.listaBancoOperacao}" />
+					</h:selectOneMenu>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Parcelas Pagas</label>
+					<p:inputText value="#{cadContratoMB.contrato.parcelaspagas}"
+						style="border-color:black;" immediate="true" id="parcelaspagas"
+						class="form-control">
+					</p:inputText>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Total Parcelas</label>
+					<p:inputText value="#{cadContratoMB.contrato.totalparcelas}"
+						style="border-color:black;" id="totalparcelas"
+						class="form-control">
+					</p:inputText>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Valor Parcela</label>
+					<h:inputText value="#{cadContratoMB.contrato.valorparcela}"
+						style="border-color:black;" id="valorparcela" class="form-control"
+						placeholder="Valor Quitar">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:inputText>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label>Valor Quitar</label>
+					<h:inputText value="#{cadContratoMB.contrato.valorquitar}"
+						style="border-color:black;" id="valorquitar" class="form-control"
+						placeholder="Valor Quitar">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:inputText>
+				</div>
+				<div class="form-group col-md-3">
+					<label>N° Contrato</label>
+					<h:inputText value="#{cadContratoMB.contrato.numerocontrato}"
+						style="border-color:black;" id="numerocontrato" class="form-control">
+					</h:inputText>
+				</div>
+			</div>
+
+			<br />
+		</h:panelGroup>
+		<p:messages id="growlCoeficiente" showDetail="true" sticky="false"
+			life="3000" />
+		<div class="form-row">
+			<h:panelGroup
+				rendered="#{cadContratoMB.contrato.tipooperacao.margem}">
+				<div class="form-group col-md-3">
+					<label>Margem Utilizada</label>
+					<h:inputText value="#{cadContratoMB.contrato.margemultilizado}"
+						id="saldoinadimplencia" class="form-control"
+						style="border-color:black;" placeholder="Saldo Inadimplência">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:inputText>
+				</div>
+				<div class="form-group col-md-3">
+					<label>Prazo</label>
+					<h:inputText value="#{cadContratoMB.contrato.prazo}" id="prazo"
+						class="form-control" style="border-color:black;"
+						placeholder="Tarifá">
+					</h:inputText>
+				</div>
+			</h:panelGroup>
+
+		</div>
+		<br />
+		<div class="form-row">
+
+			<div class="form-group col-md-3">
+				<label>Valor Liberado</label>
+				<h:inputText value="#{cadContratoMB.contrato.valorliberado}"
+					style="border-color:black;" id="valorcliente" disabled="true"
+					class="form-control" placeholder="Parcela">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:inputText>
+			</div>
+		</div>
+
+		<br />
+		<h6>Outros Informações</h6>
+		<hr />
+		<div class="form-row" style="text-transform: uppercase;">
+			<div class="form-group col-md-12">
+				<label>Observações</label>
+				<h:inputTextarea value="#{cadContratoMB.contrato.observacao}"
+					style="border-color:black;text-transform: uppercase;"
+					id="observacao" class="form-control" placeholder="Observação">
+				</h:inputTextarea>
+			</div>
+		</div>
+
+		<br />
+		<h6>Upload dos documentos</h6>
+		<hr />
+
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<label>Tipo Documento</label>
+				<h:selectOneMenu id="tipodocumento" style="width: 100%;"
+					immediate="true" value="#{cadContratoMB.tipoarquivo}"
+					converter="TipoArquivoConverter" styleClass="form-control">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadContratoMB.listaTipoArquivo}"
+						var="tipoArquivoSelecionado"
+						itemLabel="#{tipoArquivoSelecionado.descricao}"
+						itemValue="#{tipoArquivoSelecionado}" />
+					<f:attribute name="listaTipoArquivo"
+						value="#{cadContratoMB.listaTipoArquivo}" />
+					<p:ajax event="blur" />
+				</h:selectOneMenu>
+			</div>
+			<div class="form-group col-md-4">
+				<p:fileUpload
+					fileUploadListener="#{cadContratoMB.fileUploadListener}"
+					label="Anexar Banner" mode="advanced" value="#{cadContratoMB.file}"
+					update="growl, idTabelaContrato" auto="true" />
+			</div>
+			<div class="form-group col-md-3">
+				<label>.</label>
+				<div>
+					<p:commandLink ajax="false" styleClass="btn btn-primary"
+						rendered="false" value="Adicionar"
+						action="#{cadContratoMB.salvar()}"
+						update="idTabelaContrato, growl" />
+				</div>
+			</div>
+		</div>
+		<br />
+		<p:dataTable id="idTabelaContrato" var="contrato" rowIndexVar="rowIx"
+			styleClass="table table-striped table-bordered display"
+			style="font-size:16px;" value="#{cadContratoMB.listaContratoArquivo}"
+			cellspacing="0">
+
+			<p:column style="width:15%;">
+				<f:facet name="header">Data</f:facet>
+				<h:outputText value="#{contrato.dataupload}">
+					<f:convertDateTime pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:column>
+			<p:column style="width:20%;">
+				<f:facet name="header">Documento</f:facet>
+				<h:outputText value="#{contrato.tipoarquivo.descricao}">
+				</h:outputText>
+			</p:column>
+			<p:column style="width:32%;">
+				<f:facet name="header">Descrição</f:facet>
+				<h:outputText value="#{contrato.nomearquivo}" />
+			</p:column>
+
+			<p:column style="width:8%;">
+
+				<p:commandLink ajax="false"
+					action="#{cadContratoMB.excluirArquivo(rowIx)}"
+					style="text-align: left;color:black;" update="idTabelaContrato">
+					<img src="../../resources/img/lixeira.png" width="30" />
+				</p:commandLink>
+
+				<p:commandLink ajax="false"
+					action="#{cadContratoMB.baixarArquivoFTP(contrato)}"
+					style="text-align: left;color:black;">
+					<img src="../../resources/img/baixar.png" width="30" />
+
+				</p:commandLink>
+			</p:column>
+		</p:dataTable>
+
+		<br />
+		<hr />
+		<div align="center">
+			<p:commandLink ajax="false" style="text-decoration:none;"
+				action="#{cadContratoMB.salvar()}">
+				<img src="../../resources/img/salvar.png" width="40" />
+			</p:commandLink>
+			<p:commandLink ajax="false"
+				style="margin-left:2%;text-decoration:none;"
+				action="#{cadContratoMB.cancelar()}">
+				<img src="../../resources/img/cancel.png" width="40" />
+			</p:commandLink>
+		</div>
+		<br />
+		<br />
+
+		<script>
+		function mascara(o, f) {
+			v_obj = o;
+			v_fun = f;
+			setTimeout(“execmascara()”, 1);
+			}
+
+			        function execmascara() {
+			          v_obj.value = v_fun(v_obj.value);
+			        }
+
+			     function valor(v) {
+			    v = v.replace(/\D/g, "");
+			    v = v.replace(/[0-9]{15}/, "inválido");
+			    v = v.replace(/(\d{1})(\d{11})$/, "$1.$2"); // coloca ponto antes dos
+			    // Últimos 11 digitos
+			    v = v.replace(/(\d{1})(\d{8})$/, "$1.$2"); // coloca ponto antes dos
+			    // Últimos 8 digitos
+			    v = v.replace(/(\d{1})(\d{5})$/, "$1.$2"); // coloca ponto antes dos
+			    // Últimos 5 digitos
+			    v = v.replace(/(\d{1})(\d{1,2})$/, "$1,$2"); // coloca virgula antes dos
+			    // Últimos 2 digitos
+			    return v;
+			}
+		
+		</script>
+	</ui:define>
+</ui:composition>
+</html>

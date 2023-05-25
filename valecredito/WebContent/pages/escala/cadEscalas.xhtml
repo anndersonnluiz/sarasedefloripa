@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<br />
+		<h4>Cadastro de Escalas</h4>
+		<hr />
+		<p:messages id="growl" showDetail="true" sticky="false" life="3000" />
+
+
+		<div class="form-row">
+
+			<div class="form-group col-md-4">
+				<label for="exampleInputDepartamento">Departamento</label>
+				<h:selectOneMenu id="exampleInputDepartamento"
+					value="#{cadEscalaMB.departamento}"
+					converter="DepartamentoConverter" styleClass="form-control">
+					<f:selectItem itemLabel="Selecione" itemValue="0"
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadEscalaMB.listaDepartamento}"
+						var="departamentoSelecionado"
+						itemLabel="#{departamentoSelecionado.descricao}"
+						itemValue="#{departamentoSelecionado}" />
+					<f:attribute name="listaDepartamento"
+						value="#{cadEscalaMB.listaDepartamento}" />
+				</h:selectOneMenu>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="chavepix">Mês</label>
+				<h:inputText value="#{cadEscalaMB.usuario.chavepix}"
+					class="form-control" id="chavepix" placeholder="Email" />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="chavepix">Ano</label>
+				<h:inputText value="#{cadEscalaMB.usuario.chavepix}"
+					class="form-control" id="chavepix" placeholder="Email" />
+			</div>
+		</div>
+
+		<br />
+		<hr />
+		<div align="center">
+			<p:commandLink ajax="false" style="text-decoration:none;"
+				action="#{cadEscalaMB.salvar()}">
+				<img src="../../resources/img/salvar.png" width="40" />
+			</p:commandLink>
+			<p:commandLink ajax="false"
+				style="margin-left:2%;text-decoration:none;"
+				action="#{cadEscalaMB.cancelar()}">
+				<img src="../../resources/img/cancel.png" width="40" />
+			</p:commandLink>
+		</div>
+		<br />
+		<br />
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/pages/templates/padrao.xhtml">
+	<ui:define name="corpo">
+		<h4>Consulta de Ranking dos Corretores</h4>
+		<hr />
+
+		<p:messages id="growl" showDetail="true" sticky="false" life="3000" />
+		<br />
+		<p:accordionPanel activeIndex="null">
+			<p:tab title="Filtros">
+				<div class="form-row" style="font-size: 14px;">
+					<div class="form-group col-md-3">
+						<label for="cpf">Ranking</label>
+						<h:selectOneMenu style="width: 100%;" id="ranking"
+							value="#{rankingVendasMB.ranking}" styleClass="form-control">
+							<f:selectItem itemLabel="Todos" itemValue="0" />
+							<f:selectItem itemLabel="PORTABILIDADE" itemValue="1" />
+							<f:selectItem itemLabel="DEMAIS OPERAÇÕES" itemValue="2" />
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group col-md-3">
+						<label for="cpf">Mês</label>
+						<h:selectOneMenu style="width: 100%;" id="cpf"
+							value="#{rankingVendasMB.mes}" styleClass="form-control">
+							<f:selectItem itemLabel="Todos" itemValue="0" />
+							<f:selectItem itemLabel="Janeiro" itemValue="1" />
+							<f:selectItem itemLabel="Fevereiro" itemValue="2" />
+							<f:selectItem itemLabel="Março" itemValue="3" />
+							<f:selectItem itemLabel="Abril" itemValue="4" />
+							<f:selectItem itemLabel="Maio" itemValue="5" />
+							<f:selectItem itemLabel="Junho" itemValue="6" />
+							<f:selectItem itemLabel="Julho" itemValue="7" />
+							<f:selectItem itemLabel="Agosto" itemValue="8" />
+							<f:selectItem itemLabel="Setembro" itemValue="9" />
+							<f:selectItem itemLabel="Outubro" itemValue="10" />
+							<f:selectItem itemLabel="Novembro" itemValue="11" />
+							<f:selectItem itemLabel="Dezembro" itemValue="12" />
+						</h:selectOneMenu>
+					</div>
+					<div class="form-group col-md-2">
+						<label for="inputNome">Ano</label>
+						<h:inputText value="#{rankingVendasMB.ano}" class="form-control"
+							id="inputNome" placeholder="Nome" />
+					</div>
+					<div class="form-group col-md-4">
+						<label style="color: white;">.</label>
+						<div>
+							<p:commandLink ajax="false"
+								styleClass="btn btn-primary text-white" value="Pesquisar"
+								action="#{rankingVendasMB.pesquisar()}"
+								update="idTabelaContrato" />
+						</div>
+					</div>
+				</div>
+			</p:tab>
+		</p:accordionPanel>
+		<br />
+		<div class="row" align="right" style="width: 100%;">
+			<p:commandLink ajax="false"
+				rendered="#{usuarioLogadoMB.usuario.acessogeral}"
+				action="#{rankingVendasMB.novo()}" style="text-decoration:none;">
+				<img src="../../resources/img/cadastro.png" width="35" />
+			</p:commandLink>
+		</div>
+		<br />
+		<p:dataTable id="idTabelaContrato" var="ranking"
+			value="#{rankingVendasMB.listaRanking}" style="border:none;"
+			class="tabelacontas" scrollRows="10" scrollable="true"
+			scrollHeight="300" selectionMode="single"
+			rowKey="#{ranking.idrankingvendas}">
+
+			<p:column headerText="Corretor"
+				style="width:25%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{ranking.usuario.nome}">
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Ranking"
+				style="width:25%; font-size:11px; background:white; color:black; border:none;text-align:left;">
+				<h:outputText value="#{ranking.descricaoportabilidade}" />
+			</p:column>
+			<p:column headerText="Produção"
+				style="width:9%; font-size:11px; background:white; color:black; border:none;text-align:right;">
+				<h:outputText value="#{ranking.valorvenda}">
+					<f:convertNumber pattern="##,###,###,###.##" minFractionDigits="2" />
+				</h:outputText>
+			</p:column>
+
+			<p:column headerText=""
+				style="width:15%; text-align:left; font-size:12px; background:white; color:black; border:#fff;">
+				<p:commandLink ajax="false"
+					action="#{rankingVendasMB.editar(ranking)}"
+					style="text-align: left;color:black;">
+					<span data-feather="edit"></span>
+				</p:commandLink>
+
+			</p:column>
+		</p:dataTable>
+		
+	</ui:define>
+</ui:composition>
+</html>
